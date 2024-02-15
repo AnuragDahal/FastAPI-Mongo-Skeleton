@@ -1,0 +1,11 @@
+fastapi== 0.108.0
+uvicorn== 0.25.0
+SQLAlchemy==2.0.23
+passlib==1.7.4
+mysqlclient==2.2.1
+mysql-connector-python==8.2.0
+python-dotenv==1.0.0
+# add it to the requirements.txt file
+
+# install the requirements
+# pip install -r requirements.txt
