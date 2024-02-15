@@ -3,3 +3,5 @@ tempcoderunner
 /__pycache__
 /tempcoderunner
 /vscode
+/env
+.env
