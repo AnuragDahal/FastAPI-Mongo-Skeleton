@@ -4,7 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from core.database import Base, engine
 
 app = FastAPI()
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -12,11 +11,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# create tables in database
-Base.metadata.create_all(bind=engine)
-
-#  event handler for startup
-
 
 @app.on_event("startup")
 async def startup_event():
