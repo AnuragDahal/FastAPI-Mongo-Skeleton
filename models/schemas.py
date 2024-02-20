@@ -1,9 +1,6 @@
-
-from mongoengine import Document, StringField
-
-
-class User(Document):
-    name: StringField
-    email: StringField
-    password: StringField
-    image: StringField
+def individual_serial():
+    return {
+        "id": "integer",
+        "name": "string",
+        "age": "integer",
+    }
