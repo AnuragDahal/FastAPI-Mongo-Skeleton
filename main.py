@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from routers import user, auth
 from fastapi.middleware.cors import CORSMiddleware
-from core.database import Base, engine
+from core.database import client, db
 
 app = FastAPI()
 app.add_middleware(
@@ -12,9 +12,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.on_event("startup")
-async def startup_event():
-    print("Server is running")
+try:
+    client.admin.command("ping")
+    print("Connected to MongoDB")
+except Exception as e:
+    print("Failed to connect to MongoDB")
+    print(e)
+
 
 # include routers from routers folder
 app.include_router(user.router)
