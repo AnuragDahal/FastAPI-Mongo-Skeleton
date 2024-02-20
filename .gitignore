@@ -1,7 +1,4 @@
-# Add .env to this list if you are using environment variables
 tempcoderunner
-/__pycache__
-/tempcoderunner
-/vscode
-/env
+**/__pycache__/
 env
+.env
