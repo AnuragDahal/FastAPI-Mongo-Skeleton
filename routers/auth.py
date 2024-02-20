@@ -4,7 +4,7 @@ from handlers.authhandler import (
     LOGOUT
 
 )
-router = APIRouter(title="auth",)
+router = APIRouter(tags=["auth"])
 
 
 @router.get("/login")

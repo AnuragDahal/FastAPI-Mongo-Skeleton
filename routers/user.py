@@ -1,13 +1,13 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 from handlers.userhandler import (
     CREATE_USER,
-
-
 )
+from core.database import db
 router = APIRouter(tags=["user"])
 
 
-@router.get("/user")
+@router.post("/user",
+             status_code=status.HTTP_201_CREATED,)
 async def create_user():
     try:
         user = CREATE_USER()

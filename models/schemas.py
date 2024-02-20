@@ -1,10 +1,9 @@
-from pydantic import BaseModel
-from mongoengine import Document, StringField, IntField, ListField, EmbeddedDocumentField, EmbeddedDocument
+
+from mongoengine import Document, StringField
 
 
-class User(BaseModel):
-    _id: IntField
+class User(Document):
     name: StringField
     email: StringField
     password: StringField
-    blogs: ListField
+    image: StringField
