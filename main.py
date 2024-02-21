@@ -20,6 +20,10 @@ except Exception as e:
     print(e)
 
 
+def root():
+    return {"message": "Hello World"}
+
+
 # include routers from routers folder
 app.include_router(user.router)
 app.include_router(auth.router)
