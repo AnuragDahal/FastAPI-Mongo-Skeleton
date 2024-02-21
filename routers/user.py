@@ -1,17 +1,7 @@
-from fastapi import APIRouter, status, HTTPException
-from handlers.userhandler import (
-    CREATE_USER,
-    READ_USER,
-    # UPDATE_USER,
-)
+from fastapi import APIRouter, status
+from handlers.userhandler import ManageUser
 from typing import List
-from handlers.exception import (
-    ErrorHandler,
-    NotFoundHandler,
-    UnauthorizedHandler,
-    ForbiddenHandler,
-    ServerErrorHandler,
-)
+from handlers.exception import Error
 from models import schemas
 router = APIRouter(tags=["user"])
 
@@ -19,7 +9,7 @@ router = APIRouter(tags=["user"])
 @router.post("/user", status_code=status.HTTP_201_CREATED,)
 async def create_user(req: schemas.User):
     try:
-        user = CREATE_USER(req)
+        user = ManageUser.create(req)
         return user
 
     except Exception as e:
@@ -33,8 +23,8 @@ async def read_user():
     return user
 
 
-# @router.patch("/user/{email}", response_model=schemas.User)
-# async def update_user(email: str):
+@router.patch("/update/{old_email}", response_model=schemas.User)
+async def update_user(old_email: str, request: schemas.UpdateUserEmail):
 
-#     update_data = UPDATE_USER(email)
-#     return update_data
+    update_data = UPDATE_USER(old_email, request)
+    return update_data

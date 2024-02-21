@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 
-
+class ErrorHandler:
 def ErrorHandler(e):
     raise HTTPException(status_code=400, detail=str(e))
 

@@ -9,4 +9,3 @@ class User(BaseModel):
 
 class UpdateUserEmail(BaseModel):
     email: str
-    new_email: str
