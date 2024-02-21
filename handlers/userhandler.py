@@ -3,7 +3,7 @@ from core.database import user_collection
 from handlers.exception import ErrorHandler
 
 
-class ManageUser:
+class UserManager:
     def create(request: schemas.User):
         """
         Insert a new student record.

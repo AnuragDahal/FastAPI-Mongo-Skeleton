@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status
-from handlers.userhandler import ManageUser
+from handlers.userhandler import UserManager
 from handlers.exception import ErrorHandler
 from typing import List
 from handlers.exception import Error
@@ -9,20 +9,27 @@ router = APIRouter(tags=["user"])
 
 @router.post("/user", status_code=status.HTTP_201_CREATED,)
 async def create_user(req: schemas.User):
-    
-        user = ManageUser.create(req)
-        return user
+
+    user = UserManager.create(req)
+    return user
 
 
 @router.get("/user", response_model=List[schemas.User], status_code=status.HTTP_200_OK,)
 async def read_user():
 
-    user = READ_USER()
+    user = UserManager.read()
     return user
 
 
-@router.patch("/update/{old_email}", response_model=schemas.User)
+@router.patch("/update/{old_email}", response_model=schemas.User, status_code=status.HTTP_200_OK,)
 async def update_user(old_email: str, request: schemas.UpdateUserEmail):
 
-    update_data = UPDATE_USER(old_email, request)
+    update_data = UserManager.update(old_email, request)
     return update_data
+
+
+@router.delete("/delete/{email}", status_code=status.HTTP_200_OK,)
+async def delete_user(email: str):
+
+    user = UserManager.delete(email)
+    return user
