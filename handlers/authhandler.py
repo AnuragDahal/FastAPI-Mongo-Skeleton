@@ -1,10 +1,9 @@
 
+class AuthHandler:
+    def login():
+        # Login logic
+        return "Logged in successfully"
 
-def LOGIN():
-    # Login logic
-    return "Logged in successfully"
-
-
-def LOGOUT():
-    # Logout logic
-    return "Logged out successfully"
+    def logout():
+        # Logout logic
+        return "Logged out successfully"
