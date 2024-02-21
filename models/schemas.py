@@ -1,6 +1,12 @@
-def individual_serial():
-    return {
-        "id": "integer",
-        "name": "string",
-        "age": "integer",
-    }
+from pydantic import BaseModel
+
+
+class User(BaseModel):
+    name: str
+    email: str
+    password: str
+
+
+class UpdateUserEmail(BaseModel):
+    email: str
+    new_email: str
