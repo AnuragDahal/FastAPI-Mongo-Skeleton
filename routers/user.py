@@ -1,5 +1,6 @@
 from fastapi import APIRouter, status
 from handlers.userhandler import ManageUser
+from handlers.exception import ErrorHandler
 from typing import List
 from handlers.exception import Error
 from models import schemas
@@ -8,12 +9,9 @@ router = APIRouter(tags=["user"])
 
 @router.post("/user", status_code=status.HTTP_201_CREATED,)
 async def create_user(req: schemas.User):
-    try:
+    
         user = ManageUser.create(req)
         return user
-
-    except Exception as e:
-        return ErrorHandler(e)
 
 
 @router.get("/user", response_model=List[schemas.User], status_code=status.HTTP_200_OK,)
