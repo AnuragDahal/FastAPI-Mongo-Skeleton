@@ -1,8 +1,6 @@
 from fastapi import APIRouter, status
 from handlers.userhandler import UserManager
-from handlers.exception import ErrorHandler
 from typing import List
-from handlers.exception import Error
 from models import schemas
 router = APIRouter(tags=["user"])
 
