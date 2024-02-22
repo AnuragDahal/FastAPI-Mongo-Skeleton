@@ -1,36 +1,46 @@
-from fastapi import Depends
+from fastapi import Depends, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.responses import JSONResponse
 from jose import jwt
 from datetime import timedelta
 from utils.envutils import Environment
+from handlers.exception import ErrorHandler
+from utils.jwtutil import create_access_token
+from handlers.userhandler import Validate
 
 
-env=Environment()
+env = Environment()
 SECRET_KEY = env.secret_key
 ALGORITHM = env.algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = env.access_token_expire_minutes
 TOKEN_TYPE = env.TOKEN_TYPE
 TOKEN_KEY = env.TOKEN_KEY
 
+
 class AuthHandler:
-    # check fot the user credentials(yet ot implement the database)
+    @staticmethod
     def login(request: OAuth2PasswordRequestForm = Depends()):
-        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-        access_token = jwt_token.create_access_token(
-            data={"sub": user.email}, expires_delta=access_token_expires
-        )
+        user_email = Validate.verify_email(request.username)
+        if user_email:
+            access_token_expires = timedelta(
+                minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+            access_token = create_access_token(
+                data={"sub": user_email}, expires_delta=access_token_expires)
 
-        response = JSONResponse(
-            content={"access_token": access_token, "token_type": TOKEN_TYPE}
-        )
+            response = JSONResponse(
+                content={"access_token": access_token,
+                         "token_type": TOKEN_TYPE}
+            )
 
-        response.set_cookie(key=TOKEN_KEY, value=access_token,
-                            expires=access_token_expires.total_seconds())
+            response.set_cookie(key=TOKEN_KEY, value=access_token,
+                                expires=access_token_expires.total_seconds())
 
-        return response
-    # return {"message": "Invalid credentials"}
+            return response
 
-    def logout():
-        # Logout logic
-        return "Logged out successfully"
+    @staticmethod
+    def logout(res: Response):
+        try:
+            res.delete_cookie(TOKEN_KEY)
+            return {"message": "Logged out"}
+        except Exception as e:
+            return ErrorHandler.ServerError(e)
