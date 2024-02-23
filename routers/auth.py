@@ -1,17 +1,18 @@
-from fastapi import APIRouter
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi import APIRouter, Depends, status
 from handlers.authhandler import AuthHandler
 router = APIRouter(tags=["auth"])
 
 
-@router.get("/login")
-async def login():
+@router.get("/login", status_code=status.HTTP_200_OK)
+async def login(request: OAuth2PasswordRequestForm = Depends()):
 
-    user_in = AuthHandler.LOGIN()
+    user_in = AuthHandler.login(request)
     return user_in
 
 
 @router.get("/logout")
 async def logout():
 
-    user_out = AuthHandler.LOGOUT()
+    user_out = AuthHandler.logout()
     return user_out

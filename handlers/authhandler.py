@@ -7,7 +7,7 @@ from utils.envutils import Environment
 from handlers.exception import ErrorHandler
 from utils.jwtutil import create_access_token
 from handlers.userhandler import Validate
-
+from config.dependencies import get_current_user
 
 env = Environment()
 SECRET_KEY = env.secret_key
@@ -36,6 +36,7 @@ class AuthHandler:
                                 expires=access_token_expires.total_seconds())
 
             return response
+        return ErrorHandler.NotFound("User not found")
 
     @staticmethod
     def logout(res: Response):
