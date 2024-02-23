@@ -7,7 +7,6 @@ from utils.envutils import Environment
 from handlers.exception import ErrorHandler
 from utils.jwtutil import create_access_token
 from handlers.userhandler import Validate
-from config.dependencies import get_current_user
 
 env = Environment()
 SECRET_KEY = env.secret_key
@@ -21,6 +20,7 @@ class AuthHandler:
     @staticmethod
     def login(request: OAuth2PasswordRequestForm = Depends()):
         user_email = Validate.verify_email(request.username)
+        print(user_email)
         if user_email:
             access_token_expires = timedelta(
                 minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -44,4 +44,4 @@ class AuthHandler:
             res.delete_cookie(TOKEN_KEY)
             return {"message": "Logged out"}
         except Exception as e:
-            return ErrorHandler.ServerError(e)
+            return ErrorHandler.NotFound(e)
