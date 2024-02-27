@@ -1,7 +1,7 @@
 from models import schemas
 from core.database import user_collection
 from handlers.exception import ErrorHandler
-
+# from utils.passhashutils import Encryptor
 
 class Validate:
     @staticmethod
@@ -14,15 +14,19 @@ class Validate:
 
 class UserManager:
     @staticmethod
+    @staticmethod
     def create(request: schemas.User):
         """
-        Insert a new student record.
+        Insert a new user record.
         A unique `id` will be created and provided in the response.
         """
         duplicate_user = user_collection.find_one({"email": request.email})
         if not duplicate_user:
-            new_user = user_collection.insert_one(
-                request.model_dump(exclude=None))
+            # Import Encryptor only when it's needed
+            from utils.passhashutils import Encryptor
+            hashed_password = Encryptor.hash_password(request.password)
+            new_user = user_collection.insert_one(request.model_dump(
+                exclude={"password"}), {"password": hashed_password})
             return {"id": str(new_user.inserted_id)}
         return ErrorHandler.ALreadyExists("User already exists")
 
